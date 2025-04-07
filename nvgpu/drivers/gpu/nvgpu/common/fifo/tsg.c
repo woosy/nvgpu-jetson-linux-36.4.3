@@ -1146,6 +1146,8 @@ int nvgpu_tsg_set_interleave(struct nvgpu_tsg *tsg, u32 level)
 	nvgpu_log(g, gpu_dbg_sched,
 			"tsgid=%u interleave=%u", tsg->tsgid, level);
 
+	printk("nvgpu-trace: TSG %d interleave level = %u\n", tsg->tsgid, level); // 추가
+
 	nvgpu_speculation_barrier();
 
 	if ((level != NVGPU_FIFO_RUNLIST_INTERLEAVE_LEVEL_LOW) &&
@@ -1332,8 +1334,8 @@ int nvgpu_tsg_open_common(struct gk20a *g, struct nvgpu_tsg *tsg, pid_t pid)
 	tsg->ch_count = 0U;
 	nvgpu_ref_init(&tsg->refcount);
 
-	tsg->interleave_level = NVGPU_FIFO_RUNLIST_INTERLEAVE_LEVEL_LOW;
-	tsg->timeslice_us = g->ops.tsg.default_timeslice_us(g);
+	tsg->interleave_level = NVGPU_FIFO_RUNLIST_INTERLEAVE_LEVEL_LOW; // 낮은 빈도
+	tsg->timeslice_us = g->ops.tsg.default_timeslice_us(g); // Default 값을 가짐
 	tsg->runlist = NULL;
 	tsg->rl_domain = NULL;
 	tsg->nvs_domain = NULL;
@@ -1403,6 +1405,8 @@ struct nvgpu_tsg *nvgpu_tsg_open(struct gk20a *g, pid_t pid)
 		return NULL;
 	}
 
+	printk("nvgpu-trace: TSG %u opened by PID %d (default timeslice = %u us)\n",tsg->tsgid, pid, tsg->timeslice_us); // 추가
+	
 	err = nvgpu_tsg_open_common(g, tsg, pid);
 	if (err != 0) {
 		nvgpu_tsg_release_used_tsg(&g->fifo, tsg);
