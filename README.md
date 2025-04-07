@@ -3,7 +3,7 @@
 
 [NVIDIA Jetson Linux Developer Guide](https://docs.nvidia.com/jetson/archives/r36.4.3/DeveloperGuide/)
 
-- kernel customization
+- [kernel customization](https://docs.nvidia.com/jetson/archives/r36.4.3/DeveloperGuide/SD/Kernel/KernelCustomization.html) 
 
 Driver Package (BSP) Sources(public_source.tbz2 ➡️ kernel_oot_module_src.tbz2) 
 
